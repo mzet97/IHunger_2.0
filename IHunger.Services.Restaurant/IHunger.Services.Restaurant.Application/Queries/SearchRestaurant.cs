@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IHunger.Services.Restaurants.Application.Queries
 {
-    internal class SearchRestaurant
+    public class SearchRestaurant
     {
     }
 }

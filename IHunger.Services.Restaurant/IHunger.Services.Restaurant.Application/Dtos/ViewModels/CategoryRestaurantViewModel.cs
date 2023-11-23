@@ -7,7 +7,8 @@ namespace IHunger.Services.Restaurants.Application.Dtos.ViewModels
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public CategoryRestaurantViewModel(Guid id,
+        public CategoryRestaurantViewModel(
+            Guid id,
             string name,
             string description,
             DateTime createdAt,
@@ -20,7 +21,8 @@ namespace IHunger.Services.Restaurants.Application.Dtos.ViewModels
 
         public static CategoryRestaurantViewModel FromEntity(CategoryRestaurant entity)
         {
-            return new CategoryRestaurantViewModel(entity.Id,
+            return new CategoryRestaurantViewModel(
+                entity.Id,
                 entity.Name,
                 entity.Description,
                 entity.CreatedAt,

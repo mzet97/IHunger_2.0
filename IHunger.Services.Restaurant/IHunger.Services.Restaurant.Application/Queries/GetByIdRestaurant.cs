@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IHunger.Services.Restaurants.Application.Dtos.ViewModels;
+using MediatR;
 
 namespace IHunger.Services.Restaurants.Application.Queries
 {
-    public class GetByIdRestaurant
+    public class GetByIdRestaurant : IRequest<RestaurantViewModel>
     {
+        public Guid Id { get; set; }
+
+        public GetByIdRestaurant(Guid id)
+        {
+            Id = id;
+        }
     }
 }

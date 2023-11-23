@@ -29,12 +29,25 @@ namespace IHunger.Services.Restaurants.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] SearchCategoryRestaurant query)
+        {
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddCategoryRestaurant command)
         {
             var id = await _mediator.Send(command);
 
-            return CreatedAtAction(nameof(Get), new { id = id }, command);
+            return await Get(id);
         }
+
+
     }
 }
