@@ -1,3 +1,4 @@
+using IHunger.Services.Restaurants.Api.Extensions;
 using IHunger.Services.Restaurants.Application.Configuration;
 using IHunger.Services.Restaurants.Infrastructure.Configuration;
 
@@ -26,6 +27,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

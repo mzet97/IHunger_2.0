@@ -1,4 +1,5 @@
 ﻿using IHunger.Services.Restaurants.Core.Repositories;
+using IHunger.Services.Restaurants.Core.Validations;
 using MediatR;
 
 namespace IHunger.Services.Restaurants.Application.Commands.Handlers
@@ -16,13 +17,10 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
         {
             var entity = await _categoryRestaurantRepository.GetById(request.Id);
 
-            if (entity == null)
-            {
-                // Todo
-                throw new ArgumentException("Null");
-            }
+            if (!Validator.Validate(new CategoryRestaurantValidation(), entity))
+                throw new Exception("Erro");
 
-            if(request.Name != entity.Name && !string.IsNullOrEmpty(request.Name))
+            if (request.Name != entity.Name && !string.IsNullOrEmpty(request.Name))
             {
                 entity.Name = request.Name;
             }

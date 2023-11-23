@@ -33,12 +33,19 @@ namespace IHunger.Services.Restaurants.Infrastructure.Mappings
                 .IsRequired(false);
 
 
-            builder.Property(x => x.IdAddressRestaurant).IsRequired();
-            builder.HasOne(x => x.AddressRestaurant).WithMany().HasForeignKey(x => x.IdAddressRestaurant);
+            builder.Property(x => x.IdAddressRestaurant)
+                .IsRequired();
 
-            builder.Property(x => x.IdCategoryRestaurant).IsRequired();
-            builder.HasOne(x => x.CategoryRestaurant).WithMany().HasForeignKey(x => x.IdCategoryRestaurant);
+            builder.HasOne(x => x.AddressRestaurant)
+                .WithMany()
+                .HasForeignKey(x => x.IdAddressRestaurant);
 
+            builder.Property(x => x.IdCategoryRestaurant)
+                .IsRequired();
+
+            builder.HasOne(x => x.CategoryRestaurant)
+                .WithMany()
+                .HasForeignKey(x => x.IdCategoryRestaurant);
 
             builder
                 .HasMany(e => e.Products)
@@ -51,8 +58,6 @@ namespace IHunger.Services.Restaurants.Infrastructure.Mappings
                 .WithOne(e => e.Restaurant)
                 .HasForeignKey(e => e.IdRestaurant)
                 .IsRequired(false);
-
-
         }
     }
 }

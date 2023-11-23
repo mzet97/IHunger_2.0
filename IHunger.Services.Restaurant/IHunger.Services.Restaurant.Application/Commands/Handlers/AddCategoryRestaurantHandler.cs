@@ -1,4 +1,6 @@
-﻿using IHunger.Services.Restaurants.Core.Repositories;
+﻿using IHunger.Services.Restaurants.Core.Entities;
+using IHunger.Services.Restaurants.Core.Repositories;
+using IHunger.Services.Restaurants.Core.Validations;
 using MediatR;
 
 namespace IHunger.Services.Restaurants.Application.Commands.Handlers
@@ -15,6 +17,9 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
         public async Task<Guid> Handle(AddCategoryRestaurant request, CancellationToken cancellationToken)
         {
             var entity = request.ToEntity();
+
+            if (!Validator.Validate(new CategoryRestaurantValidation(), entity))
+                throw new Exception("Erro");
 
             await _categoryRestaurantRepository.Add(entity);
 
