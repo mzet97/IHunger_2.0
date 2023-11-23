@@ -48,6 +48,22 @@ namespace IHunger.Services.Restaurants.Api.Controllers
             return await Get(id);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromBody] UpdateCategoryRestaurant command)
+        {
+            var result = await _mediator.Send(command);
 
+            return await Get(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var command = new DeleteRestaurant(id);
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
     }
 }

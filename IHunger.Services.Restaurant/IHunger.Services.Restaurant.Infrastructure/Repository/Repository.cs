@@ -24,7 +24,7 @@ namespace IHunger.Services.Restaurants.Infrastructure.Repository
             entity.CreatedAt = DateTime.Now;
             await DbSet.AddAsync(entity);
 
-            Db.SaveChanges();
+            await Db.SaveChangesAsync();
         }
 
         public virtual async Task<List<TEntity>> Search(
@@ -82,27 +82,27 @@ namespace IHunger.Services.Restaurants.Infrastructure.Repository
             return await DbSet.ToListAsync();
         }
 
-        public async Task<TEntity> GetById(Guid id)
+        public async Task<TEntity?> GetById(Guid id)
         {
             return await DbSet.FindAsync(id);
         }
 
-        public virtual void Update(TEntity entity)
+        public virtual async Task Update(TEntity entity)
         {
             entity.CreatedAt = DateTime.Now;
             DbSet.Update(entity);
 
-            Db.SaveChanges();
+            await Db.SaveChangesAsync();
         }
 
-        public virtual void Remove(Guid id)
+        public virtual async Task Remove(Guid id)
         {
             var entity = DbSet.Find(id);
 
             if (entity != null)
             {
                 entity.DeletedAt = DateTime.Now;
-                Update(entity);
+                await Update(entity);
             }
         }
 

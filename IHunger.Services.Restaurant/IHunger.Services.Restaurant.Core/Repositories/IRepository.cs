@@ -11,11 +11,11 @@ namespace IHunger.Services.Restaurants.Core.Repositories
     public interface IRepository<TEntity> : IDisposable where TEntity : IEntityBase
     {
         Task Add(TEntity entity);
-        Task<TEntity> GetById(Guid id);
+        Task<TEntity?> GetById(Guid id);
         Task<List<TEntity>> GetAll();
         Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
-        void Update(TEntity entity);
-        void Remove(Guid id);
+        Task Update(TEntity entity);
+        Task Remove(Guid id);
         Task<List<TEntity>> Search(
             Expression<Func<TEntity, bool>>? predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,

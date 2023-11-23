@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace IHunger.Services.Restaurants.Application.Commands
 {
-    public class DeleteRestaurant
+    public class DeleteRestaurant : IRequest<Unit>
     {
+        public DeleteRestaurant(Guid id)
+        {
+            Id = id;
+        }
+
+        public Guid Id { get; set; }
     }
 }
