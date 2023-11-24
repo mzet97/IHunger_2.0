@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IHunger.Services.Restaurants.Infrastructure.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20231024214208_start")]
+    [Migration("20231124004628_start")]
     partial class start
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace IHunger.Services.Restaurants.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -92,11 +92,11 @@ namespace IHunger.Services.Restaurants.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");

@@ -43,8 +43,8 @@ namespace IHunger.Services.Restaurants.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Description = table.Column<string>(type: "varchar(200)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)

@@ -1,5 +1,4 @@
 ﻿using IHunger.Services.Restaurants.Application.Commands;
-using IHunger.Services.Restaurants.Infrastructure.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
