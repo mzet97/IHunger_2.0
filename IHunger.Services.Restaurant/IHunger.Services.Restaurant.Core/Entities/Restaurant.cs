@@ -19,7 +19,13 @@ namespace IHunger.Services.Restaurants.Core.Entities
 
         public Restaurant(){}
 
-        public Restaurant(Guid id, string name, string description, string image, AddressRestaurant addressRestaurant, CategoryRestaurant categoryRestaurant)
+        public Restaurant(
+            Guid id,
+            string name,
+            string description,
+            string image,
+            AddressRestaurant addressRestaurant,
+            CategoryRestaurant categoryRestaurant)
         {
             Id = id;
             Name = name;
@@ -30,7 +36,12 @@ namespace IHunger.Services.Restaurants.Core.Entities
         }
 
         public static Restaurant Create(
-            string name, string description, string image, Guid idCategoryRestaurant,  AddressRestaurant addressRestaurant, CategoryRestaurant categoryRestaurant)
+            string name,
+            string description,
+            string image,
+            Guid idCategoryRestaurant,
+            AddressRestaurant addressRestaurant,
+            CategoryRestaurant categoryRestaurant)
         {
             var restaurant = new Restaurant(Guid.NewGuid(), name, description, image, addressRestaurant, categoryRestaurant);
 

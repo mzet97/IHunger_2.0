@@ -18,7 +18,16 @@ namespace IHunger.Services.Restaurants.Core.Entities
             
         }
 
-        public AddressRestaurant(Guid id, string street, string number, string district, string city, string county, string zipCode, string latitude, string longitude)
+        public AddressRestaurant(
+            Guid id,
+            string street,
+            string number,
+            string district,
+            string city,
+            string county,
+            string zipCode,
+            string latitude,
+            string longitude)
         {
             Id = id;
             Street = street;

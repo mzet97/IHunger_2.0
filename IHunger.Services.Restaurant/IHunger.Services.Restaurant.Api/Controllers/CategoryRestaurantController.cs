@@ -7,7 +7,7 @@ namespace IHunger.Services.Restaurants.Api.Controllers
 {
     [Route("api/restaurant/category-restaurant")]
     [ApiController]
-    public class CategoryRestaurantController : ControllerBase
+    public class CategoryRestaurantController : MainController
     {
         private readonly IMediator _mediator;
 
@@ -24,9 +24,9 @@ namespace IHunger.Services.Restaurants.Api.Controllers
             var result = await _mediator.Send(query);
 
             if (result == null)
-                return NotFound();
+                return CustomResponse(false, null);
 
-            return Ok(result);
+            return CustomResponse(true, result);
         }
 
         [HttpGet]
@@ -35,9 +35,9 @@ namespace IHunger.Services.Restaurants.Api.Controllers
             var result = await _mediator.Send(query);
 
             if (result == null)
-                return NotFound();
+                return CustomResponse(false, null);
 
-            return Ok(result);
+            return CustomResponse(true, result);
         }
 
         [HttpPost]
@@ -63,7 +63,7 @@ namespace IHunger.Services.Restaurants.Api.Controllers
 
             var result = await _mediator.Send(command);
 
-            return Ok(result);
+            return CustomResponse(true, result);
         }
     }
 }

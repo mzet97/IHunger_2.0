@@ -1,6 +1,8 @@
 ﻿using IHunger.Services.Restaurants.Core.Entities;
+using IHunger.Services.Restaurants.Core.Events;
 using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Core.Validations;
+using IHunger.Services.Restaurants.Infrastructure.MessageBus;
 using MediatR;
 
 namespace IHunger.Services.Restaurants.Application.Commands.Handlers
@@ -9,9 +11,14 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
     {
         private readonly ICategoryRestaurantRepository _categoryRestaurantRepository;
 
-        public AddCategoryRestaurantHandler(ICategoryRestaurantRepository categoryRestaurantRepository)
+        private readonly IMessageBusClient _messageBus;
+
+        public AddCategoryRestaurantHandler(
+            ICategoryRestaurantRepository categoryRestaurantRepository,
+            IMessageBusClient messageBus)
         {
             _categoryRestaurantRepository = categoryRestaurantRepository;
+            _messageBus = messageBus;
         }
 
         public async Task<Guid> Handle(AddCategoryRestaurant request, CancellationToken cancellationToken)
@@ -19,7 +26,14 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
             var entity = request.ToEntity();
 
             if (!Validator.Validate(new CategoryRestaurantValidation(), entity))
-                throw new Exception("Erro");
+            {
+                var noticiation = new NotificationError("Validate CategoryRestaurant has error", "Validate CategoryRestaurant has error");
+                var routingKey = noticiation.GetType().Name.ToDashCase();
+
+                _messageBus.Publish(noticiation, routingKey, "noticiation-service");
+
+                throw new Exception("Validate Error");
+            }
 
             await _categoryRestaurantRepository.Add(entity);
 
