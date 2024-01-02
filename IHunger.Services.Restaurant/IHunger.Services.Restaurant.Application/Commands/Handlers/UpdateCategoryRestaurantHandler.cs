@@ -1,4 +1,5 @@
 ﻿using IHunger.Services.Restaurants.Core.Events;
+using IHunger.Services.Restaurants.Core.Exceptions;
 using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Core.Validations;
 using IHunger.Services.Restaurants.Infrastructure.MessageBus;
@@ -31,7 +32,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 
                 _messageBus.Publish(noticiation, routingKey, "noticiation-service");
 
-                throw new Exception("Find Error");
+                throw new ValidationException("Find Error");
             }
 
             if (!Validator.Validate(new CategoryRestaurantValidation(), entity))
@@ -41,7 +42,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 
                 _messageBus.Publish(noticiation, routingKey, "noticiation-service");
 
-                throw new Exception("Validate Error");
+                throw new ValidationException("Validate Error");
             }
 
             if (request.Name != entity.Name && !string.IsNullOrEmpty(request.Name))

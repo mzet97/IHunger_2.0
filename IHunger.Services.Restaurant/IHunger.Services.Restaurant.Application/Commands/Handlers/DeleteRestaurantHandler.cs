@@ -1,4 +1,5 @@
 ﻿using IHunger.Services.Restaurants.Core.Events;
+using IHunger.Services.Restaurants.Core.Exceptions;
 using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Infrastructure.MessageBus;
 using MediatR;
@@ -30,7 +31,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 
                 _messageBus.Publish(noticiation, routingKey, "noticiation-service");
 
-                throw new Exception("Delete Error");
+                throw new NotFoundException("Delete Error");
             }
 
             await _categoryRestaurantRepository.Remove(entity.Id);

@@ -1,5 +1,6 @@
 ﻿using IHunger.Services.Restaurants.Core.Entities;
 using IHunger.Services.Restaurants.Core.Events;
+using IHunger.Services.Restaurants.Core.Exceptions;
 using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Core.Validations;
 using IHunger.Services.Restaurants.Infrastructure.MessageBus;
@@ -36,7 +37,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 
                 _messageBus.Publish(noticiation, routingKey, "noticiation-service");
 
-                throw new ArgumentException("Null");
+                throw new ValidationException("Category is null");
             }
 
             if(request.AddressRestaurant == null)
@@ -46,7 +47,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 
                 _messageBus.Publish(noticiation, routingKey, "noticiation-service");
 
-                throw new ArgumentException("Null");
+                throw new ValidationException("AddressRestaurant is null");
             }
 
             var addressRestaurant = new AddressRestaurant(
@@ -67,7 +68,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 
                 _messageBus.Publish(noticiation, routingKey, "noticiation-service");
 
-                throw new Exception("Validate Error");
+                throw new ValidationException("Validate Error");
             }
                 
 
@@ -86,7 +87,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 
                 _messageBus.Publish(noticiation, routingKey, "noticiation-service");
 
-                throw new Exception("Validate Error");
+                throw new ValidationException("Validate Error");
             }
 
             await _restaurantRepository.Add(restaurant);

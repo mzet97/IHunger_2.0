@@ -1,7 +1,9 @@
 ﻿using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Infrastructure.Context;
+using IHunger.Services.Restaurants.Infrastructure.Extensions;
 using IHunger.Services.Restaurants.Infrastructure.MessageBus;
 using IHunger.Services.Restaurants.Infrastructure.Repository;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
@@ -31,12 +33,23 @@ namespace IHunger.Services.Restaurants.Infrastructure.Configuration
             return services;
         }
 
-        public static IServiceCollection AddMessageBus(this IServiceCollection services)
+        public static IServiceCollection AddMessageBus(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionFactory = new ConnectionFactory
+            var connectionFactory = new ConnectionFactory();
+
+            var rabbitMqSection = configuration.GetSection("RabbitMq");
+            services.Configure<RabbitMq>(rabbitMqSection);
+            var rabbitMq = rabbitMqSection.Get<RabbitMq>();
+            
+            if(rabbitMq == null)
             {
-                HostName = "localhost"
-            };
+                throw new ArgumentNullException("RabbitMq configuration is missing");
+            }
+
+            connectionFactory.HostName = rabbitMq.Host;
+            connectionFactory.Port = rabbitMq.Port;
+            connectionFactory.UserName = rabbitMq.Username;
+            connectionFactory.Password = rabbitMq.Password;
 
             var connection = connectionFactory.CreateConnection("restaurant-producer");
 

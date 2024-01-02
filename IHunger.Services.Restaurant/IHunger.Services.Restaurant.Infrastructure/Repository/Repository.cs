@@ -1,8 +1,10 @@
 ﻿using IHunger.Services.Restaurants.Core.Entities;
+using IHunger.Services.Restaurants.Core.Models;
 using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IHunger.Services.Restaurants.Infrastructure.Repository
 {
@@ -10,13 +12,11 @@ namespace IHunger.Services.Restaurants.Infrastructure.Repository
     {
         protected readonly RestaurantDbContext Db;
         protected readonly DbSet<TEntity> DbSet;
-        protected int Count;
 
         protected Repository(RestaurantDbContext db)
         {
             Db = db;
             DbSet = db.Set<TEntity>();
-            Count = DbSet.AsQueryable().Count();
         }
 
         public virtual async Task Add(TEntity entity)
@@ -27,49 +27,35 @@ namespace IHunger.Services.Restaurants.Infrastructure.Repository
             await Db.SaveChangesAsync();
         }
 
-        public virtual async Task<List<TEntity>> Search(
+        public virtual async Task<BaseResult<TEntity>> Search(
             Expression<Func<TEntity, bool>>? predicate = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, 
-            int? pageSize = null, int? pageIndex = null)
+            int pageSize = 10, int page = 1)
         {
             var query = DbSet.AsQueryable();
-            Count = query.Count();
-            int pages = 0;
+
+            var paged = new PagedResult();
+            paged.CurrentPage = page;
+            paged.PageSize = pageSize;
+            paged.RowCount = query.Count();
+            var pageCount = (double)paged.RowCount / pageSize;
+            paged.PageCount = (int)Math.Ceiling(pageCount);
+            var skip = (page - 1) * pageSize;
 
             if (predicate != null)
             {
                 query = query.Where(predicate);
             }
 
-            if (pageSize != null && pageSize.HasValue && pageSize > 0)
-            {
-                pages = Count / pageSize.Value;
-
-                if (pageIndex != null && pageIndex.HasValue && pageIndex.Value > 0)
-                {
-                    if (pageIndex.Value > pages)
-                    {
-                        query = query.OrderBy(x => x.Id).Skip(pageSize.Value * pages).Take(pageSize.Value);
-                    }
-                    else
-                    {
-                        query = query.OrderBy(x => x.Id).Skip(pageSize.Value * pageIndex.Value).Take(pageSize.Value);
-                    }
-
-                }
-                else
-                {
-                    query = query.OrderBy(x => x.Id).Skip(pageSize.Value);
-                }
-
-            }
+            query = query.OrderBy(x => x.Id).Skip(skip).Take(pageSize);
 
             if (orderBy != null)
             {
-                return await orderBy(query).ToListAsync();
+                var data = await orderBy(query).ToListAsync();
+                return new BaseResult<TEntity>(data, paged);
             }
 
-            return await query.ToListAsync();
+            return new BaseResult<TEntity>(await query.ToListAsync(), paged);
         }
 
         public virtual async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate)

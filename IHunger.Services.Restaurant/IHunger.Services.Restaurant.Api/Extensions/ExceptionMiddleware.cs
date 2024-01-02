@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using IHunger.Services.Restaurants.Core.Exceptions;
+using System.Net;
+using System.Text.Json;
 
 namespace IHunger.Services.Restaurants.Api.Extensions
 {
@@ -22,13 +24,23 @@ namespace IHunger.Services.Restaurants.Api.Extensions
             catch (Exception ex)
             {
                 _log.LogError(ex.Message);
-                HandleExceptionAsync(httpContext, ex);
+                await HandleExceptionAsync(httpContext, ex);
             }
         }
 
-        private static void HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            HttpStatusCode code = HttpStatusCode.InternalServerError;
+
+            if (exception is NotFoundException) code = HttpStatusCode.NotFound;
+            if (exception is ValidationException) code = HttpStatusCode.UnprocessableContent;
+
+            string result = JsonSerializer.Serialize(new { error = exception.Message });
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)code;
+
+            return context.Response.WriteAsync(result);
         }
     }
 }

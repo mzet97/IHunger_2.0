@@ -1,4 +1,5 @@
 ﻿using IHunger.Services.Restaurants.Core.Entities;
+using IHunger.Services.Restaurants.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,9 @@ namespace IHunger.Services.Restaurants.Core.Repositories
         Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
         Task Update(TEntity entity);
         Task Remove(Guid id);
-        Task<List<TEntity>> Search(
-            Expression<Func<TEntity, bool>>? predicate = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            int? pageSize = null,
-            int? pageIndex = null);
+        Task<BaseResult<TEntity>> Search(
+             Expression<Func<TEntity, bool>>? predicate = null,
+             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+             int pageSize = 10, int page = 1);
     }
 }

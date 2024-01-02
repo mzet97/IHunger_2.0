@@ -1,4 +1,5 @@
 ﻿using IHunger.Services.Restaurants.Application.Dtos.ViewModels;
+using IHunger.Services.Restaurants.Core.Exceptions;
 using IHunger.Services.Restaurants.Core.Repositories;
 using MediatR;
 
@@ -19,8 +20,7 @@ namespace IHunger.Services.Restaurants.Application.Queries.Handlers
 
             if (entity == null)
             {
-                // Todo
-                throw new ArgumentException("Null");
+                throw new NotFoundException("Not found");
             }
 
             return CategoryRestaurantViewModel.FromEntity(entity);

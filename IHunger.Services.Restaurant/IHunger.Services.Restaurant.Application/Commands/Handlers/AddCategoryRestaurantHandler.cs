@@ -1,5 +1,6 @@
 ﻿using IHunger.Services.Restaurants.Core.Entities;
 using IHunger.Services.Restaurants.Core.Events;
+using IHunger.Services.Restaurants.Core.Exceptions;
 using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Core.Validations;
 using IHunger.Services.Restaurants.Infrastructure.MessageBus;
@@ -32,7 +33,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 
                 _messageBus.Publish(noticiation, routingKey, "noticiation-service");
 
-                throw new Exception("Validate Error");
+                throw new ValidationException("Validate Error");
             }
 
             await _categoryRestaurantRepository.Add(entity);

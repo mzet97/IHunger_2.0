@@ -1,6 +1,4 @@
-﻿using IHunger.Services.Restaurants.Api.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace IHunger.Services.Restaurants.Api.Controllers
 {
@@ -11,11 +9,11 @@ namespace IHunger.Services.Restaurants.Api.Controllers
         {
             if(success)
             {
-                return Ok(new ResponseViewModel(true, result));
+                return Ok(result);
 
             }
 
-            return BadRequest(new ResponseViewModel(false, result));
+            return BadRequest(result);
         }
     }
 }

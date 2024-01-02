@@ -12,7 +12,7 @@ builder.Configuration
 
 builder.Services.AddDbContextConfig(builder.Configuration);
 builder.Services.ResolveDependencies();
-builder.Services.AddMessageBus();
+builder.Services.AddMessageBus(builder.Configuration);
 builder.Services.AddHandlers();
 
 builder.Services.AddControllers();

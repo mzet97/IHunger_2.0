@@ -1,5 +1,6 @@
 ﻿using IHunger.Services.Restaurants.Application.Dtos.ViewModels;
 using IHunger.Services.Restaurants.Core.Entities;
+using IHunger.Services.Restaurants.Core.Models;
 using IHunger.Services.Restaurants.Core.Repositories;
 using LinqKit;
 using MediatR;
@@ -7,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace IHunger.Services.Restaurants.Application.Queries.Handlers
 {
-    public class SearchCategoryRestaurantHandler : IRequestHandler<SearchCategoryRestaurant, List<CategoryRestaurantViewModel>>
+    public class SearchCategoryRestaurantHandler : IRequestHandler<SearchCategoryRestaurant, BaseResult<CategoryRestaurantViewModel>>
     {
         private readonly ICategoryRestaurantRepository _categoryRestaurantRepository;
 
@@ -16,7 +17,7 @@ namespace IHunger.Services.Restaurants.Application.Queries.Handlers
             _categoryRestaurantRepository = categoryRestaurantRepository;
         }
 
-        public async Task<List<CategoryRestaurantViewModel>> Handle(SearchCategoryRestaurant request, CancellationToken cancellationToken)
+        public async Task<BaseResult<CategoryRestaurantViewModel>> Handle(SearchCategoryRestaurant request, CancellationToken cancellationToken)
         {
             Expression<Func<CategoryRestaurant, bool>>? filter = null;
             Func<IQueryable<CategoryRestaurant>, IOrderedQueryable<CategoryRestaurant>>? ordeBy = null;
@@ -106,14 +107,15 @@ namespace IHunger.Services.Restaurants.Application.Queries.Handlers
                 filter = filter.And(x => x.DeletedAt == request.DeletedAt);
             }
 
-            var list = await _categoryRestaurantRepository
+            var result = await _categoryRestaurantRepository
                 .Search(
                     filter,
                     ordeBy,
                     request.PageSize,
                     request.PageIndex);
 
-            return list.Select(x => CategoryRestaurantViewModel.FromEntity(x)).ToList();
+            return new BaseResult<CategoryRestaurantViewModel>(
+                result.Data.Select(x => CategoryRestaurantViewModel.FromEntity(x)).ToList(), result.PagedResult);
         }
     }
 }
