@@ -2,7 +2,7 @@
 using IHunger.Services.Restaurants.Infrastructure.Context;
 using IHunger.Services.Restaurants.Infrastructure.Extensions;
 using IHunger.Services.Restaurants.Infrastructure.MessageBus;
-using IHunger.Services.Restaurants.Infrastructure.Repository;
+using IHunger.Services.Restaurants.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

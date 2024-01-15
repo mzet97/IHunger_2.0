@@ -2,7 +2,7 @@
 using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Infrastructure.Context;
 
-namespace IHunger.Services.Restaurants.Infrastructure.Repository
+namespace IHunger.Services.Restaurants.Infrastructure.Repositories
 {
     public class RestaurantCommentRepository : Repository<RestaurantComment>, IRestaurantCommentRepository
     {

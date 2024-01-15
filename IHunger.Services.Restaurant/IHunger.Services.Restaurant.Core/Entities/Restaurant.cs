@@ -50,8 +50,7 @@ namespace IHunger.Services.Restaurants.Core.Entities
             return restaurant;
         }
 
-        public void Update(
-            Guid id, string name, string description, string image, 
+        public void Update(string name, string description, string image, 
             Guid idCategoryRestaurant, Guid idAddressRestaurant, 
             AddressRestaurant addressRestaurant, CategoryRestaurant categoryRestaurant)
         {

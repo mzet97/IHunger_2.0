@@ -4,9 +4,8 @@ using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace IHunger.Services.Restaurants.Infrastructure.Repository
+namespace IHunger.Services.Restaurants.Infrastructure.Repositories
 {
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : AggregateRoot, new()
     {
