@@ -5,7 +5,6 @@ using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Core.Validations;
 using IHunger.Services.Restaurants.Infrastructure.MessageBus;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 {

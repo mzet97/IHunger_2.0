@@ -59,7 +59,7 @@ namespace IHunger.Services.Restaurants.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var command = new DeleteRestaurant(id);
+            var command = new DeleteCategoryRestaurant(id);
 
             var result = await _mediator.Send(command);
 

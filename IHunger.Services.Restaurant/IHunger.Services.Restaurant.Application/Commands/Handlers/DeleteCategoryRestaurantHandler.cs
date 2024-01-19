@@ -6,13 +6,13 @@ using MediatR;
 
 namespace IHunger.Services.Restaurants.Application.Commands.Handlers
 {
-    public class DeleteRestaurantHandler : IRequestHandler<DeleteRestaurant, Unit>
+    public class DeleteCategoryRestaurantHandler : IRequestHandler<DeleteCategoryRestaurant, Unit>
     {
         private readonly ICategoryRestaurantRepository _categoryRestaurantRepository;
 
         private readonly IMessageBusClient _messageBus;
 
-        public DeleteRestaurantHandler(
+        public DeleteCategoryRestaurantHandler(
             ICategoryRestaurantRepository categoryRestaurantRepository,
             IMessageBusClient messageBus)
         {
@@ -20,7 +20,7 @@ namespace IHunger.Services.Restaurants.Application.Commands.Handlers
             _messageBus = messageBus;
         }
 
-        public async Task<Unit> Handle(DeleteRestaurant request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteCategoryRestaurant request, CancellationToken cancellationToken)
         {
             var entity = await _categoryRestaurantRepository.GetById(request.Id);
 

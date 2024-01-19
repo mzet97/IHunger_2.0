@@ -1,5 +1,4 @@
-﻿using IHunger.Services.Restaurants.Core.Entities;
-using IHunger.Services.Restaurants.Core.Events;
+﻿using IHunger.Services.Restaurants.Core.Events;
 using IHunger.Services.Restaurants.Core.Exceptions;
 using IHunger.Services.Restaurants.Core.Repositories;
 using IHunger.Services.Restaurants.Core.Validations;

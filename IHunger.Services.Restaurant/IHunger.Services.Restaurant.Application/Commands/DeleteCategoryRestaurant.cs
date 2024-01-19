@@ -2,9 +2,9 @@
 
 namespace IHunger.Services.Restaurants.Application.Commands
 {
-    public class DeleteRestaurant : IRequest<Unit>
+    public class DeleteCategoryRestaurant : IRequest<Unit>
     {
-        public DeleteRestaurant(Guid id)
+        public DeleteCategoryRestaurant(Guid id)
         {
             Id = id;
         }
